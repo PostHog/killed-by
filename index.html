@@ -63,7 +63,7 @@
     .graveyard {
       padding: 1rem 0 3rem;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1rem;
     }
     .grave {
@@ -71,15 +71,18 @@
       border: 1px solid var(--border);
       border-radius: 0.5rem;
       box-shadow: 0 2px 0 var(--border);
-      padding: 1.5rem 1.25rem;
+      padding: 1.25rem;
+      max-height: 20rem;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       gap: 0.4rem;
     }
-    .grave .stone { font-size: 2.5rem; line-height: 1; filter: grayscale(0.2); }
-    .grave h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; }
+    .grave .stone { font-size: 1.75rem; line-height: 1; filter: grayscale(0.2); }
+    .grave h2 { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.01em; }
+    .grave .epitaph, .grave .cause { font-size: 0.85rem; }
 
     .ad {
       background: var(--yellow);
@@ -115,7 +118,7 @@
         var(--card);
       justify-content: center;
       color: var(--muted);
-      min-height: 11rem;
+      min-height: 8rem;
     }
     .plot .reserved {
       font-size: 0.7rem;
@@ -154,6 +157,47 @@
     }
     .propose p.lead { color: var(--muted); margin: 0.75rem auto 2rem; max-width: 34rem; }
     #kill-proposal { max-width: 26rem; margin: 0 auto; text-align: left; }
+    /* posthog-js renders the survey unstyled into the light DOM, so the page owns its look */
+    #kill-proposal .ph-survey { position: static !important; }
+    #kill-proposal .survey-form,
+    #kill-proposal .thank-you-message {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 0 var(--border);
+      padding: 1.5rem;
+    }
+    #kill-proposal .survey-question { font-weight: 800; font-size: 1.05rem; display: block; }
+    #kill-proposal .survey-question-description { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+    #kill-proposal textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 0.35rem;
+      padding: 0.6rem 0.75rem;
+      margin-top: 0.9rem;
+      resize: vertical;
+    }
+    #kill-proposal textarea:focus { outline: 2px solid var(--red); border-color: transparent; }
+    #kill-proposal .bottom-section { margin-top: 1rem; }
+    #kill-proposal button.form-submit {
+      width: 100%;
+      font: inherit;
+      font-weight: 700;
+      color: #fff;
+      background: var(--red);
+      border: none;
+      border-radius: 0.35rem;
+      padding: 0.65rem 1.2rem;
+      cursor: pointer;
+    }
+    #kill-proposal button.form-submit:hover:not(:disabled) { filter: brightness(1.1); }
+    #kill-proposal button.form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+    #kill-proposal .footer-branding { display: none; }
+    #kill-proposal .thank-you-message { text-align: center; }
+    #kill-proposal .thank-you-message h3 { font-size: 1.2rem; font-weight: 800; }
 
     footer {
       border-top: 1px solid var(--border);
@@ -266,10 +310,21 @@
         // lazy-loaded, so retry until the form actually mounts.
         var tries = 0;
         (function mount() {
+          var y = window.scrollY;
           ph.renderSurvey('01a04414-9dbd-0000-48ee-488d3dacf81f', '#kill-proposal');
-          if (!document.getElementById('kill-proposal').childNodes.length && tries++ < 20) {
-            setTimeout(mount, 500);
-          }
+          setTimeout(function () {
+            var el = document.getElementById('kill-proposal');
+            if (el.childNodes.length) {
+              // the survey autofocuses its textarea on mount, scrolling the
+              // page down to it — undo that
+              if (document.activeElement && el.contains(document.activeElement)) {
+                document.activeElement.blur();
+                window.scrollTo(0, y);
+              }
+            } else if (tries++ < 20) {
+              mount();
+            }
+          }, 300);
         })();
       }
     });
