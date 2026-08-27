@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Killed by PostHog</title>
+  <meta name="description" content="The PostHog graveyard. A loving memorial to the products we've killed — and a ballot box for the next one.">
+  <style>
+    :root {
+      --bg: #EEEFE9;
+      --ink: #151515;
+      --muted: #6b6b66;
+      --border: #D0D1C9;
+      --card: #ffffff;
+      --red: #F54E00;
+      --blue: #1D4AFF;
+      --yellow: #F9BD2B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+    a { color: var(--red); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 1.25rem; }
+
+    header { padding: 4rem 0 2.5rem; text-align: center; }
+    .wordmark {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    h1 .killed { color: var(--red); }
+    .tally {
+      margin-top: 1.25rem;
+      font-size: 1.15rem;
+      color: var(--muted);
+    }
+    .tally strong { color: var(--ink); font-size: 1.6rem; vertical-align: -0.05em; }
+
+    .graveyard { padding: 1rem 0 3rem; }
+    .grave {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 0 var(--border);
+      padding: 1.75rem;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .grave .stone { font-size: 3rem; line-height: 1; filter: grayscale(0.2); }
+    .grave h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+    .grave .dates {
+      display: inline-block;
+      margin: 0.25rem 0 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--card);
+      background: var(--ink);
+      border-radius: 999px;
+      padding: 0.15rem 0.7rem;
+    }
+    .grave .epitaph { color: var(--muted); }
+    .grave .cause { margin-top: 0.75rem; font-size: 0.9rem; }
+    .grave .cause span {
+      font-weight: 700;
+      color: var(--ink);
+      border-bottom: 3px solid var(--yellow);
+    }
+
+    .propose {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 4rem;
+      text-align: center;
+    }
+    .propose h2 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .propose p.lead { color: var(--muted); margin: 0.75rem auto 2rem; max-width: 34rem; }
+    #kill-proposal { max-width: 26rem; margin: 0 auto; text-align: left; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0 3rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    footer .hog { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <span class="wordmark">PostHog presents</span>
+    <h1><span class="killed">Killed</span> by PostHog</h1>
+    <p class="tally"><strong>1</strong> product has been sent to the great data warehouse in the sky. So far.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="graveyard" aria-label="The graveyard">
+      <article class="grave">
+        <div class="stone" aria-hidden="true">🪦</div>
+        <div>
+          <h2>Product Tours</h2>
+          <span class="dates">2025 – 2026</span>
+          <p class="epitaph">
+            Here lies Product Tours. It walked users through your product,
+            step by careful step, and then quietly walked itself out of the roadmap.
+            Survived by Surveys — which will now ask you how you feel about that.
+          </p>
+          <p class="cause">Cause of death: <span>we ship fast, and sometimes that means shipping things to the graveyard.</span></p>
+        </div>
+      </article>
+    </section>
+
+    <section class="propose" id="propose">
+      <h2>Who's next? You decide. 🔪</h2>
+      <p class="lead">
+        PostHog builds a lot of products. Statistically, some of them deserve this page.
+        Nominate the next resident of the graveyard below.
+      </p>
+      <div id="kill-proposal"></div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <span class="hog" aria-hidden="true">🦔</span>
+    <p>A memorial maintained by <a href="https://posthog.com">PostHog</a>, with apologies to the excellent <a href="https://killedbygoogle.com">Killed by Google</a>.</p>
+    <p>No hedgehogs were harmed in the killing of these products.</p>
+  </footer>
+
+  <script src="https://us-assets.i.posthog.com/static/array.js"></script>
+  <script>
+    posthog.init('sTMFPsFhdP1Ssg', {
+      api_host: 'https://us.i.posthog.com',
+      defaults: '2025-05-24',
+      loaded: function (ph) {
+        // Renders the "Which product should we kill next?" survey inline.
+        // Shows nothing until the survey is launched in PostHog.
+        ph.renderSurvey('01a04414-9dbd-0000-48ee-488d3dacf81f', '#kill-proposal');
+      }
+    });
+  </script>
+</body>
+</html>
