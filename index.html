@@ -60,19 +60,70 @@
     }
     .tally strong { color: var(--ink); font-size: 1.6rem; vertical-align: -0.05em; }
 
-    .graveyard { padding: 1rem 0 3rem; }
+    .graveyard {
+      padding: 1rem 0 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
     .grave {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 0.5rem;
       box-shadow: 0 2px 0 var(--border);
-      padding: 1.75rem;
+      padding: 1.5rem 1.25rem;
       display: flex;
-      gap: 1.25rem;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.4rem;
     }
-    .grave .stone { font-size: 3rem; line-height: 1; filter: grayscale(0.2); }
-    .grave h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+    .grave .stone { font-size: 2.5rem; line-height: 1; filter: grayscale(0.2); }
+    .grave h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; }
+
+    .ad {
+      background: var(--yellow);
+      border: 2px dashed var(--red);
+      justify-content: center;
+      transform: rotate(-1.2deg);
+    }
+    .ad .ad-label {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .ad h2 { font-size: 1.15rem; }
+    .ad p { font-size: 0.85rem; }
+    .ad .cta {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.4rem 0.9rem;
+      border-radius: 0.35rem;
+    }
+    .ad .cta:hover { text-decoration: none; filter: brightness(1.1); }
+
+    .plot {
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)),
+        url("sleeping-hog.png") center / 80% no-repeat,
+        var(--card);
+      justify-content: center;
+      color: var(--muted);
+      min-height: 11rem;
+    }
+    .plot .reserved {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .plot p { font-size: 0.85rem; }
     .grave .dates {
       display: inline-block;
       margin: 0.25rem 0 0.75rem;
@@ -123,23 +174,40 @@
 
   <main class="wrap">
     <section class="graveyard" aria-label="The graveyard">
+      <aside class="grave ad" id="dead-ad" aria-label="Advertisement (parody)"></aside>
+
       <article class="grave">
         <div class="stone" aria-hidden="true">🪦</div>
-        <div>
-          <h2>Product Tours</h2>
-          <span class="dates">2025 – 2026</span>
-          <p class="epitaph">
-            It walked your users through your product, and then walked the plank.
-          </p>
-          <p class="cause">Cause of death: <span>we ship fast, and sometimes that means shipping things to the graveyard.</span></p>
-        </div>
+        <h2>Product Tours</h2>
+        <span class="dates">2025 – 2026</span>
+        <p class="epitaph">
+          It walked your users through your product, and then walked the plank.
+        </p>
+        <p class="cause">Cause of death: <span>it was more important to ship sick self-driving features, when a tour can be almost one-shotted by your favourite robot.</span></p>
+      </article>
+
+      <article class="grave plot">
+        <span class="reserved">Reserved</span>
+        <p>Do not disturb. Something is napping here.</p>
+      </article>
+      <article class="grave plot">
+        <span class="reserved">Reserved</span>
+        <p>Your favourite product could be next.</p>
+      </article>
+      <article class="grave plot">
+        <span class="reserved">Reserved</span>
+        <p>Plot pre-purchased. Occupant TBC.</p>
+      </article>
+      <article class="grave plot">
+        <span class="reserved">Reserved</span>
+        <p>Vote below to fill this plot.</p>
       </article>
     </section>
 
     <section class="propose" id="propose">
       <h2>Who's next? You decide. 🔪</h2>
       <p class="lead">
-        PostHog builds a lot of products. Statistically, some of them deserve this page.
+        PostHog builds so many products. Statistically, some of them deserve this page.
         Nominate the next resident of the graveyard below.
       </p>
       <div id="kill-proposal"></div>
@@ -152,6 +220,41 @@
     <p>No hedgehogs were harmed in the killing of these products.</p>
   </footer>
 
+  <script>
+    var ads = [
+      {
+        head: 'This ad space outlived Product Tours.',
+        body: 'Your product could too. No promises.',
+        cta: 'Try PostHog free'
+      },
+      {
+        head: 'Watch users ignore your onboarding in 4K.',
+        body: 'Session Replay: every rage click, lovingly preserved.',
+        cta: 'Press play'
+      },
+      {
+        head: 'Kill features without commitment.',
+        body: 'Feature Flags: 0% rollout, 100% closure.',
+        cta: 'Flag something'
+      },
+      {
+        head: 'HOT SINGLE TABLES IN YOUR DATA WAREHOUSE',
+        body: 'They are unjoined and they are waiting for you.',
+        cta: 'JOIN now'
+      },
+      {
+        head: 'Our AI read this graveyard.',
+        body: 'It is not scared. It ships anyway.',
+        cta: 'Meet the robot'
+      }
+    ];
+    var ad = ads[Math.floor(Math.random() * ads.length)];
+    document.getElementById('dead-ad').innerHTML =
+      '<span class="ad-label">Advertisement</span>' +
+      '<h2>' + ad.head + '</h2>' +
+      '<p>' + ad.body + '</p>' +
+      '<a class="cta" href="https://posthog.com">' + ad.cta + '</a>';
+  </script>
   <script src="https://us-assets.i.posthog.com/static/array.js"></script>
   <script>
     posthog.init('sTMFPsFhdP1Ssg', {
@@ -159,7 +262,15 @@
       defaults: '2025-05-24',
       loaded: function (ph) {
         // Renders the "Which product should we kill next?" survey inline.
-        ph.renderSurvey('01a04414-9dbd-0000-48ee-488d3dacf81f', '#kill-proposal');
+        // renderSurvey silently no-ops until the surveys extension has
+        // lazy-loaded, so retry until the form actually mounts.
+        var tries = 0;
+        (function mount() {
+          ph.renderSurvey('01a04414-9dbd-0000-48ee-488d3dacf81f', '#kill-proposal');
+          if (!document.getElementById('kill-proposal').childNodes.length && tries++ < 20) {
+            setTimeout(mount, 500);
+          }
+        })();
       }
     });
   </script>
