@@ -129,9 +129,7 @@
           <h2>Product Tours</h2>
           <span class="dates">2025 – 2026</span>
           <p class="epitaph">
-            Here lies Product Tours. It walked users through your product,
-            step by careful step, and then quietly walked itself out of the roadmap.
-            Survived by Surveys — which will now ask you how you feel about that.
+            It walked your users through your product, and then walked the plank.
           </p>
           <p class="cause">Cause of death: <span>we ship fast, and sometimes that means shipping things to the graveyard.</span></p>
         </div>
@@ -161,7 +159,6 @@
       defaults: '2025-05-24',
       loaded: function (ph) {
         // Renders the "Which product should we kill next?" survey inline.
-        // Shows nothing until the survey is launched in PostHog.
         ph.renderSurvey('01a04414-9dbd-0000-48ee-488d3dacf81f', '#kill-proposal');
       }
     });
