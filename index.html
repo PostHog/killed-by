@@ -17,6 +17,15 @@
       --yellow: #F9BD2B;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("burning-money-hog.png") no-repeat right -3rem bottom -2rem / min(75vmin, 620px);
+      opacity: 0.14;
+      pointer-events: none;
+    }
+    body > * { position: relative; }
     body {
       background: var(--bg);
       color: var(--ink);
