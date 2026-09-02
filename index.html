@@ -156,49 +156,7 @@
       font-weight: 900;
       letter-spacing: -0.02em;
     }
-    .propose p.lead { color: var(--muted); margin: 0.75rem auto 2rem; max-width: 34rem; }
-    #kill-proposal { max-width: 26rem; margin: 0 auto; text-align: left; }
-    /* posthog-js renders the survey unstyled into the light DOM, so the page owns its look */
-    #kill-proposal .ph-survey { position: static !important; }
-    #kill-proposal .survey-form,
-    #kill-proposal .thank-you-message {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 0 var(--border);
-      padding: 1.5rem;
-    }
-    #kill-proposal .survey-question { font-weight: 800; font-size: 1.05rem; display: block; }
-    #kill-proposal .survey-question-description { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
-    #kill-proposal textarea {
-      width: 100%;
-      font: inherit;
-      color: var(--ink);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 0.35rem;
-      padding: 0.6rem 0.75rem;
-      margin-top: 0.9rem;
-      resize: vertical;
-    }
-    #kill-proposal textarea:focus { outline: 2px solid var(--red); border-color: transparent; }
-    #kill-proposal .bottom-section { margin-top: 1rem; }
-    #kill-proposal button.form-submit {
-      width: 100%;
-      font: inherit;
-      font-weight: 700;
-      color: #fff;
-      background: var(--red);
-      border: none;
-      border-radius: 0.35rem;
-      padding: 0.65rem 1.2rem;
-      cursor: pointer;
-    }
-    #kill-proposal button.form-submit:hover:not(:disabled) { filter: brightness(1.1); }
-    #kill-proposal button.form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
-    #kill-proposal .footer-branding { display: none; }
-    #kill-proposal .thank-you-message { text-align: center; }
-    #kill-proposal .thank-you-message h3 { font-size: 1.2rem; font-weight: 800; }
+    .propose p.lead { color: var(--muted); margin: 0.75rem auto 0; max-width: 34rem; }
 
     footer {
       border-top: 1px solid var(--border);
@@ -214,7 +172,7 @@
   <header class="wrap">
     <span class="wordmark">PostHog presents</span>
     <h1><span class="killed">Killed</span> by PostHog</h1>
-    <p class="tally"><strong>2</strong> products have been sent to the great context warehouse in the sky.</p>
+    <p class="tally"><strong>3</strong> products have been sent to the great context warehouse in the sky.</p>
   </header>
 
   <main class="wrap">
@@ -242,27 +200,33 @@
         <a class="obit" href="https://github.com/PostHog/posthog/issues/59856">Read the obituary</a>
       </article>
 
+      <article class="grave">
+        <div class="stone" aria-hidden="true">🪦</div>
+        <h2>Killed by PostHog</h2>
+        <span class="dates">2026 – 2026</span>
+        <p class="epitaph">
+          A graveyard for the products we killed. It ran out of things to bury, so it buried itself.
+        </p>
+        <p class="cause">Cause of death: <span>Charles said this is not weird, it's just an in-joke we spent too many tokens on.</span></p>
+      </article>
+
       <article class="grave plot">
         <span class="reserved">Reserved</span>
         <p>Do not disturb. Something is napping here.</p>
       </article>
       <article class="grave plot">
-        <span class="reserved">Reserved</span>
-        <p>Your favourite product could be next.</p>
-      </article>
-      <article class="grave plot">
-        <span class="reserved">Reserved</span>
-        <p>Vote below to fill this plot.</p>
+        <span class="reserved">Closed</span>
+        <p>No new burials. The gravedigger is also in a grave.</p>
       </article>
     </section>
 
     <section class="propose" id="propose">
-      <h2>Who's next? You decide. 🔪</h2>
+      <h2>Nominations are closed. 🔪</h2>
       <p class="lead">
-        PostHog builds so many products. Statistically, some of them deserve this page.
-        Nominate the next resident of the graveyard below.
+        There used to be a ballot box here, where you could nominate the next resident of the
+        graveyard. It has been archived, along with the graveyard, along with this page.
+        Thank you to everyone who signed a death warrant.
       </p>
-      <div id="kill-proposal"></div>
     </section>
   </main>
 
@@ -311,30 +275,7 @@
   <script>
     posthog.init('sTMFPsFhdP1Ssg', {
       api_host: 'https://us.i.posthog.com',
-      defaults: '2025-05-24',
-      loaded: function (ph) {
-        // Renders the "Which product should we kill next?" survey inline.
-        // renderSurvey silently no-ops until the surveys extension has
-        // lazy-loaded, so retry until the form actually mounts.
-        var tries = 0;
-        (function mount() {
-          var y = window.scrollY;
-          ph.renderSurvey('01a04414-9dbd-0000-48ee-488d3dacf81f', '#kill-proposal');
-          setTimeout(function () {
-            var el = document.getElementById('kill-proposal');
-            if (el.childNodes.length) {
-              // the survey autofocuses its textarea on mount, scrolling the
-              // page down to it — undo that
-              if (document.activeElement && el.contains(document.activeElement)) {
-                document.activeElement.blur();
-                window.scrollTo(0, y);
-              }
-            } else if (tries++ < 20) {
-              mount();
-            }
-          }, 300);
-        })();
-      }
+      defaults: '2025-05-24'
     });
   </script>
 </body>
